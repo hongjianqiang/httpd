@@ -74,7 +74,7 @@ class PartialContentHandler(SimpleHTTPRequestHandler):
 			tmp1  = Range.split("=")
 			tmp2  = tmp1[1].split("-")
 			start = int(tmp2[0])
-			end   = int(tmp2[1]) if 2==len(tmp2) else 0
+			end   = int(tmp2[1]) if 2==len(tmp2) and tmp2[1] else 0
 			step  = 0
 			if end > start:
 				step = end - start
@@ -92,7 +92,7 @@ class PartialContentHandler(SimpleHTTPRequestHandler):
 			f.seek(start)
 			try:
 				#self.copyfile(f, self.wfile)
-				buf = f.read(step)
+				buf = f.read(step+1)
 				self.wfile.write(buf)
 				self.log_message('"%s" %s', self.requestline, "req finished.")
 			except socket.error:
